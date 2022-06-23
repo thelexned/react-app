@@ -33,14 +33,14 @@ jobs:
         with:
           name: code-coverage
           path: coverage
-      - name: Upload Builld Folder 
+      - name: Build Project
+        if: github.event_name == 'push'
+        run: npm build run
+      - name: Upload Build Folder 
         uses: actions/upload-artifact@v1 
         with:
           name: build
           path: build
-      - name: Build Project
-        if: github.event_name == 'push'
-        run: npm build run
       - name: Create Release
         run: npx semantic-release
         env:
