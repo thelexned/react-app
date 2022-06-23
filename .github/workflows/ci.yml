@@ -41,6 +41,11 @@ jobs:
       - name: Build Project
         if: github.event_name == 'push'
         run: npm build run
+      - name: Create Release
+        run: npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
       - name: Deploy to Staging
         if: github.event_name == 'push'
         run: npx surge --project ./build --domain uncovered-hose.surge.sh
